@@ -14,8 +14,8 @@ async function connectDB() {
     await client.connect();
     console.log('Connected to MongoDB');
 
-    const db = client.db('matticulas');
-    collection = db.collection('matriculas');
+    const db = client.db('pkmn');
+    collection = db.collection('pokedex');
 
   } catch (err) {
     console.error('Failed to connect to MongoDB', err);
@@ -27,7 +27,7 @@ connectDB();
 app.use(express.json()); 
 
 
-app.post('/matriculas', async (req, res) => {
+app.post('/pokedex', async (req, res) => {
   try {
     const novaMatricula = req.body;
 
@@ -39,7 +39,7 @@ app.post('/matriculas', async (req, res) => {
   }
 });
 
-app.get('/matriculas', async (req, res) => {
+app.get('/pokedex', async (req, res) => {
   try {
     
     const matriculas = await collection.find().toArray();
@@ -51,7 +51,7 @@ app.get('/matriculas', async (req, res) => {
 
 const { ObjectId } = require('mongodb');
 
-app.get('/matriculas/:id', async (req, res) => {
+app.get('/pokedex/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const newId =  new ObjectId(id);
@@ -68,13 +68,13 @@ app.get('/matriculas/:id', async (req, res) => {
   }
 });
 
-app.put('/matriculas/:id', async (req, res) => {
+app.put('/pokedex/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const newId =  new ObjectId(id);
+    const newId = parseInt(id);
     const atualizacao = req.body;
-
-    const result = await collection.updateOne( { _id: newId }, { $set: atualizacao });
+  
+    const result = await collection.updateOne( { numero_pokedex: newId }, { $set: atualizacao });
 
     if (result.matchedCount === 0) {
       res.status(404).json({ message: 'Matrícula não encontrada' });
@@ -86,7 +86,7 @@ app.put('/matriculas/:id', async (req, res) => {
   }
 });
 
-app.delete('/matriculas/:id', async (req, res) => {
+app.delete('/pokedex/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const newId =  new ObjectId(id);

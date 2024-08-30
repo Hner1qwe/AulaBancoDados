@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function UpdateMatricula() {
-  const [id, setId] = useState('');
-  const [aluno, setAluno] = useState('');
-  const [turma, setTurma] = useState('');
-  const [curso, setCurso] = useState('');
+export default function Updatepokedex() {
+  const [numero_pokedex, setnumero] = useState('');
+  const [pokemon, setpokemon] = useState('');
+  const [tipagem, settipagem] = useState('');
+  const [descricao, setdescricao] = useState('');
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const atualizacao = { aluno, turma, curso };
+    const atualizacao = { pokemon, tipagem, descricao };
 
     try {
-      const response = await fetch(`http://localhost:5000/matriculas/${id}`, {
+      const response = await fetch(`http://localhost:5000/pokedex/${numero_pokedex}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export default function UpdateMatricula() {
       });
       if (response.ok) {
         alert('Matrícula atualizada com sucesso!');
-        navigate("/matriculas");
+        navigate("/pokedex");
       } else {
         alert('Erro ao atualizar matrícula.');
       }
@@ -34,38 +34,38 @@ export default function UpdateMatricula() {
 
   return (
     <div className='container'>
-    <form  className="form-container" onSubmit={handleSubmit}>
-      <h2>Atualizar Matrícula</h2>
-      <input
-        type="text"
-        placeholder="ID da Matrícula"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Nome do Aluno"
-        value={aluno}
-        onChange={(e) => setAluno(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Turma"
-        value={turma}
-        onChange={(e) => setTurma(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Curso"
-        value={curso}
-        onChange={(e) => setCurso(e.target.value)}
-        required
-      />
-      <button type="submit">Atualizar Matrícula</button>
-    </form>
+      <form className="form-container" onSubmit={handleSubmit}>
+        <h2>Atualizar Pokémon</h2>
+        <input
+          type="text"
+          placeholder="Número do Pokémon"
+          value={numero_pokedex}
+          onChange={(e) => setnumero(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Nome do Pokemon"
+          value={pokemon}
+          onChange={(e) => setpokemon(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Tipagem"
+          value={tipagem}
+          onChange={(e) => settipagem(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Descrição"
+          value={descricao}
+          onChange={(e) => setdescricao(e.target.value)}
+          required
+        />
+        <button type="submit">Atualizar Pokemon</button>
+      </form>
     </div>
   );
 }
